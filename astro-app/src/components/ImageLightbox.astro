@@ -1,0 +1,251 @@
+---
+---
+
+<div id="lightbox" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300" aria-modal="true" role="dialog">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/95 backdrop-blur-md" id="lightbox-backdrop"></div>
+
+    <!-- Close Button -->
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white/70 hover:text-white z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+    
+    <!-- Prev Button -->
+    <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+    </button>
+
+    <!-- Next Button -->
+    <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+    </button>
+
+
+    <!-- Content Container -->
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="relative max-w-6xl w-full max-h-[90vh] flex flex-col items-center">
+            <!-- Image -->
+            <img id="lightbox-img" src="" alt="Project Preview" class="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300" />
+            
+            <!-- Loading Indicator -->
+             <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0">
+                <div class="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+             </div>
+
+            <!-- Description Box -->
+            <div class="mt-6 text-center max-w-2xl px-4">
+                <h3 id="lightbox-title" class="text-2xl font-bold text-white mb-2 tracking-tight"></h3>
+                <p id="lightbox-desc" class="text-white/80 text-sm leading-relaxed font-light"></p>
+                <div class="text-white/40 text-xs mt-2" id="lightbox-counter"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDesc = document.getElementById('lightbox-desc');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const lightboxLoader = document.getElementById('lightbox-loader');
+    
+    const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    const backdrop = document.getElementById('lightbox-backdrop');
+    
+    // State
+    let currentGallery: string[] = []; // Array of URLs
+    let currentImageIndex = 0;
+    // We also store metadata to keep it valid (title/desc usually per project, not per image, but could be extended)
+    let currentTitle = "";
+    let currentDesc = "";
+
+    const updateLightboxContent = (index: number) => {
+        if (!currentGallery[index]) return;
+        
+        const src = currentGallery[index];
+
+        if (lightboxImg && src) {
+            // Show loader
+            lightboxLoader?.classList.remove('opacity-0');
+            
+            // Preload image
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                lightboxImg.src = src;
+                lightboxLoader?.classList.add('opacity-0');
+            };
+            tempImg.src = src;
+        }
+        
+        if (lightboxTitle) lightboxTitle.innerText = currentTitle;
+        if (lightboxDesc) lightboxDesc.innerText = currentDesc;
+        
+        // Show counter only if multiple images
+        if (lightboxCounter) {
+             if (currentGallery.length > 1) {
+                lightboxCounter.innerText = `${index + 1} / ${currentGallery.length}`;
+                lightboxCounter.style.display = 'block';
+             } else {
+                lightboxCounter.style.display = 'none';
+             }
+        }
+        
+        // Show/Hide Nav Buttons based on count
+        if (currentGallery.length <= 1) {
+            prevBtn?.classList.add('hidden');
+            nextBtn?.classList.add('hidden');
+        } else {
+            prevBtn?.classList.remove('hidden');
+            nextBtn?.classList.remove('hidden');
+            // Ensure MD blocking still applies? The class has hidden md:block.
+            // When we remove 'hidden' here, it shows on mobile too? 
+            // The original class was `hidden md:block`. 
+            // If we blindly remove 'hidden', it becomes `md:block` (visible everywhere).
+            // Let's actually use display style or manage classes carefully.
+            // Simplified: Just toggle a 'force-hidden' if count <= 1.
+            // But for now, let's just leave the CSS classes alone if they are sufficient, 
+            // or explicitly hide if only 1 item.
+            
+            // Correction: The buttons should be visible on mobile too if there are multiple images 
+            // (though we have swipe). Buttons are good for clarity.
+            // Let's reset classes to be visible-flexible.
+            prevBtn!.style.display = 'block';
+            nextBtn!.style.display = 'block';
+        }
+         if (currentGallery.length <= 1) {
+            if(prevBtn) prevBtn.style.display = 'none';
+            if(nextBtn) nextBtn.style.display = 'none';
+         }
+
+        currentImageIndex = index;
+    };
+
+    const nextImage = () => {
+        if (currentGallery.length <= 1) return;
+        const newIndex = (currentImageIndex + 1) % currentGallery.length;
+        updateLightboxContent(newIndex);
+    }
+
+    const prevImage = () => {
+        if (currentGallery.length <= 1) return;
+        const newIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+        updateLightboxContent(newIndex);
+    }
+    
+    // Function to open lightbox
+    window.openLightbox = (triggerElement: HTMLElement) => {
+        if (!lightbox || !lightboxImg) return;
+
+        // Extract Data
+        const rawGallery = triggerElement.getAttribute('data-gallery');
+        try {
+            currentGallery = rawGallery ? JSON.parse(rawGallery) : [];
+        } catch (e) {
+            console.error("Failed to parse gallery data", e);
+            currentGallery = [];
+        }
+
+        // Fallback checks (should be handled by Card, but just in case)
+        if (currentGallery.length === 0) {
+            const single = triggerElement.getAttribute('data-image');
+            if (single) currentGallery = [single];
+        }
+
+        currentTitle = triggerElement.getAttribute('data-title') || "";
+        currentDesc = triggerElement.getAttribute('data-desc') || "";
+        
+        if (currentGallery.length === 0) return;
+
+        // Reset to first image
+        currentImageIndex = 0;
+        updateLightboxContent(0);
+
+        lightbox.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            lightbox.classList.remove('opacity-0');
+            lightboxImg.classList.remove('scale-95');
+            lightboxImg.classList.add('scale-100');
+        });
+        
+        document.body.style.overflow = 'hidden';
+    };
+
+    // Close logic
+    const closeLightbox = () => {
+        if (!lightbox || !lightboxImg) return;
+
+        lightbox.classList.add('opacity-0');
+        lightboxImg.classList.remove('scale-100');
+        lightboxImg.classList.add('scale-95');
+
+        setTimeout(() => {
+            lightbox.classList.add('hidden');
+            lightboxImg.src = ''; 
+        }, 300);
+
+        document.body.style.overflow = '';
+    };
+
+    // Event Listeners
+    closeBtn?.addEventListener('click', closeLightbox);
+    backdrop?.addEventListener('click', closeLightbox);
+    
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+    });
+    
+    // Swipe Logic
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    lightbox?.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    lightbox?.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    const handleSwipe = () => {
+        if (currentGallery.length <= 1) return;
+        if (touchEndX < touchStartX - 50) nextImage();
+        if (touchEndX > touchStartX + 50) prevImage();
+    }
+
+
+    // Global Trigger
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const card = target.closest('.lightbox-trigger');
+        
+        if (card) {
+            e.preventDefault();
+            // Cast to HTMLElement to satisfy TS
+            window.openLightbox(card as HTMLElement);
+        }
+    });
+
+    declare global {
+        interface Window {
+            openLightbox: (triggerElement: HTMLElement) => void;
+        }
+    }
+</script>

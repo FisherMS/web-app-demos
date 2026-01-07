@@ -1,0 +1,92 @@
+---
+import categoriesData from "../data/categories.json";
+
+const categories = categoriesData.filter((cat) => cat.visible);
+
+// Determine active category (default to first one or handle via client-side)
+// For pure Astro, this might be handled via URL params or client-side JS filtering.
+---
+
+<div
+  class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100/50 py-4 overflow-x-auto no-scrollbar"
+>
+  <div class="flex px-4 space-x-3 min-w-max">
+    {
+      categories.map((cat, index) => (
+        <button
+          class={`px-5 py-2 rounded-full text-[11px] font-bold transition-all duration-300 transform active:scale-95 
+          ${index === 0 ? "bg-black text-white shadow-lg shadow-black/10" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}
+          whitespace-nowrap category-btn tracking-wide`}
+          data-category={cat.name}
+        >
+          {cat.name}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  // Simple client-side filtering logic
+  const buttons = document.querySelectorAll(".category-btn");
+  const projects = document.querySelectorAll(".project-item");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Update Active State
+      buttons.forEach((b) => {
+        b.classList.remove("bg-black", "text-white", "shadow-md");
+        b.classList.add("bg-gray-100", "text-gray-600");
+      });
+      btn.classList.remove("bg-gray-100", "text-gray-600");
+      btn.classList.add("bg-black", "text-white", "shadow-md");
+
+      const category = btn.getAttribute("data-category");
+
+      // Filter Projects
+      projects.forEach((project) => {
+        const projectCat = project.getAttribute("data-category");
+        if (category === "最新项目" || projectCat === category) {
+          // "最新项目" could mean "All" or specifically latest.
+          // The user req says "Latest Projects", usually showing all or recent.
+          // Let's assume for this filter it acts as "All" or we just show everything.
+          // If "最新项目" is a specific category in data, then match it.
+          // But usually "Latest" implies chronological.
+          // Let's treat "最新项目" as "Show All" or just match the string if projects have that category.
+          // In my data, I assigned "最新项目" to some items. So I will match exactly.
+          // Wait, if I want "Latest" to be "All", I should change logic.
+          // User Requirement: "Categories: Latest, UI/UX..."
+          // I'll stick to strict filtering for now based on the data 'category' field.
+          // If the user meant "All", they usually say "All".
+
+          // However, for better UX, usually the first tab is "All".
+          // "最新项目" (Latest Projects) is a specific category in my JSON.
+          // So I will just check if strings match.
+          if (projectCat === category) {
+            (project as HTMLElement).style.display = "block";
+            // Trigger animation if possible
+          } else {
+            (project as HTMLElement).style.display = "none";
+          }
+        }
+        // Special case: If we want "Latest" to show all, we can do:
+        // if (category === "最新项目") (project as HTMLElement).style.display = 'block';
+        // But let's assume strict tagging first.
+      });
+
+      // Re-trigger layout (Masonry) update if needed.
+      // Since we use CSS columns, hiding elements might break the flow or leave gaps?
+      // CSS columns handles visibility:none well, it reflows.
+    });
+  });
+</script>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

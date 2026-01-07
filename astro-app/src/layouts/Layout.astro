@@ -1,0 +1,95 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import BottomMenu from '../components/BottomMenu.astro';
+import profileData from '../data/profile.json';
+
+interface Props {
+	title: string;
+    description?: string;
+    image?: string;
+    canonicalURL?: string;
+}
+
+const { 
+    title, 
+    description = "设计师 & 开发者作品集，展示各类商业小程序、品牌 H5、SaaS 工具及插画绘本等创意项目。", 
+    image = "/favicon.svg",
+    canonicalURL = Astro.url.href
+} = Astro.props;
+
+const siteName = profileData.name || "设计作品集";
+const pageTitle = `${title} | ${siteName}`;
+
+// Structured Data (JSON-LD) for Person/Portfolio
+const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": profileData.name,
+    "jobTitle": profileData.title,
+    "url": canonicalURL,
+    "sameAs": profileData.socials.filter(s => s.visible).map(s => s.url)
+};
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+        
+        <!-- Primary Meta Tags -->
+		<title>{pageTitle}</title>
+		<meta name="title" content={pageTitle} />
+		<meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={new URL(image, Astro.url)} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={pageTitle} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+        <!-- Structured Data -->
+        <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+        <ClientRouter />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-gray-50 text-gray-900 font-sans antialiased pb-20">
+		<slot />
+        <BottomMenu />
+	</body>
+</html>
+
+<style is:global>
+	/* Global Resets & Typography */
+    :root {
+        --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+	html {
+		font-family: var(--font-sans);
+        scroll-behavior: smooth;
+	}
+    
+    /* Hide scrollbar for clean app-like feel but allow scrolling */
+    body::-webkit-scrollbar {
+        width: 6px;
+    }
+    body::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.1); 
+        border-radius: 4px;
+    }
+</style>

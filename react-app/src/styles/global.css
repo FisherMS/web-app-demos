@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+:root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for clean app-like feel but allow scrolling */
+body::-webkit-scrollbar {
+    width: 6px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}

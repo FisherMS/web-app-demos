@@ -1,0 +1,111 @@
+[
+  {
+    "id": 1,
+    "title": "霓虹幻梦",
+    "category": "最新项目",
+    "imageUrl": "https://placehold.co/600x800/2a2a2a/FFF?text=Neon+Dreams",
+    "images": [
+      "https://placehold.co/1200x1600/2a2a2a/FFF?text=Neon+Dreams+1",
+      "https://placehold.co/1200x1600/333333/FFF?text=Neon+Dreams+2",
+      "https://placehold.co/1200x1600/111111/FFF?text=Neon+Dreams+3"
+    ],
+    "description": "赛博朋克风格网页设计。",
+    "visible": true
+  },
+  {
+    "id": 2,
+    "title": "绿色生活 App",
+    "category": "UI/UX",
+    "imageUrl": "https://placehold.co/600x900/4CAF50/FFF?text=Eco+App",
+    "images": [
+      "https://placehold.co/1200x1800/4CAF50/FFF?text=Eco+App+Main",
+      "https://placehold.co/1200x1800/66BB6A/FFF?text=Eco+App+Flow",
+      "https://placehold.co/1200x1800/81C784/FFF?text=Eco+App+Details"
+    ],
+    "description": "可持续生活方式移动应用。",
+    "visible": true
+  },
+  {
+    "id": 3,
+    "title": "极简品牌形象",
+    "category": "平面相关",
+    "imageUrl": "https://placehold.co/600x600/FF5722/FFF?text=Brand",
+    "images": [
+      "https://placehold.co/1200x1200/FF5722/FFF?text=Brand+Logo",
+      "https://placehold.co/1200x1200/FF7043/FFF?text=Brand+ Stationery"
+    ],
+    "description": "科技初创公司的极简品牌设计。",
+    "visible": true
+  },
+  {
+    "id": 4,
+    "title": "狐狸与兔子",
+    "category": "插画/绘本",
+    "imageUrl": "https://placehold.co/600x700/E91E63/FFF?text=Fox+Rabbit",
+    "images": [
+      "https://placehold.co/1200x1400/E91E63/FFF?text=Fox+Cover",
+      "https://placehold.co/1200x1400/F06292/FFF?text=Fox+Page+1",
+      "https://placehold.co/1200x1400/F48FB1/FFF?text=Fox+Page+2"
+    ],
+    "description": "儿童绘本插画系列。",
+    "visible": true
+  },
+  {
+    "id": 5,
+    "title": "抽象艺术",
+    "category": "其他",
+    "imageUrl": "https://placehold.co/600x800/673AB7/FFF?text=Abstract",
+    "images": [
+      "https://placehold.co/1200x1600/673AB7/FFF?text=Abstract+1"
+    ],
+    "description": "实验性数字艺术创作。",
+    "visible": false
+  },
+  {
+    "id": 6,
+    "title": "金融数据看板",
+    "category": "UI/UX",
+    "imageUrl": "https://placehold.co/600x500/009688/FFF?text=Dashboard",
+    "images": [
+      "https://placehold.co/1200x1000/009688/FFF?text=Dashboard+Overview",
+      "https://placehold.co/1200x1000/26A69A/FFF?text=Dashboard+Analytics"
+    ],
+    "description": "企业级数据可视化仪表盘。",
+    "visible": true
+  },
+  {
+    "id": 7,
+    "title": "精品咖啡包装",
+    "category": "平面相关",
+    "imageUrl": "https://placehold.co/600x800/795548/FFF?text=Coffee",
+    "images": [
+      "https://placehold.co/1200x1600/795548/FFF?text=Coffee+Bag",
+      "https://placehold.co/1200x1600/8D6E63/FFF?text=Coffee+Cup"
+    ],
+    "description": "高端咖啡豆包装设计方案。",
+    "visible": true
+  },
+  {
+    "id": 8,
+    "title": "智能家居中控",
+    "category": "最新项目",
+    "imageUrl": "https://placehold.co/600x700/607D8B/FFF?text=Smart+Home",
+    "images": [
+      "https://placehold.co/1200x1400/607D8B/FFF?text=Home+Screen"
+    ],
+    "description": "物联网设备控制界面。",
+    "visible": true
+  },
+  {
+    "id": 9,
+    "title": "角色设定",
+    "category": "插画/绘本",
+    "imageUrl": "https://placehold.co/600x900/9C27B0/FFF?text=Character",
+    "images": [
+      "https://placehold.co/1200x1800/9C27B0/FFF?text=Character+Sketch",
+      "https://placehold.co/1200x1800/BA68C8/FFF?text=Character+Color"
+    ],
+    "description": "奇幻游戏角色概念设计。",
+    "visible": true
+  }
+]

@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "title": "商业类小程序",
+        "description": "提供电商、预约、展示等各类商业小程序开发，助力商家快速变现。",
+        "icon": "🛍️",
+        "visible": true
+    },
+    {
+        "id": 2,
+        "title": "品牌展示类H5",
+        "description": "高端定制H5页面，用于品牌宣传、活动推广，打造沉浸式视觉体验。",
+        "icon": "📱",
+        "visible": true
+    },
+    {
+        "id": 3,
+        "title": "公众号",
+        "description": "微信公众号功能开发、菜单定制及内容排版优化。",
+        "icon": "💬",
+        "visible": true
+    },
+    {
+        "id": 4,
+        "title": "行业管理系统、SaaS工具类",
+        "description": "针对特定行业的管理后台、CRM、ERP及SaaS工具开发，提升运营效率。",
+        "icon": "⚙️",
+        "visible": true
+    },
+    {
+        "id": 5,
+        "title": "项目整包",
+        "description": "从需求分析、UI设计到前后端开发、上线部署的全流程整包服务。",
+        "icon": "📦",
+        "visible": true
+    },
+    {
+        "id": 6,
+        "title": "项目模块外包",
+        "description": "承接特定功能模块的开发任务，灵活配合现有团队。",
+        "icon": "🧩",
+        "visible": true
+    },
+    {
+        "id": 7,
+        "title": "日常运维",
+        "description": "提供服务器维护、数据备份、Bug修复等日常技术支持。",
+        "icon": "🛠️",
+        "visible": true
+    }
+]

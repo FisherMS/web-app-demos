@@ -2,10 +2,19 @@
 
 这是一个包含多种 frontend 框架实现的设计师作品集项目集合。
 
+
+## DEMO Online
+
+- https://ag.cszi.com  [angular-app]
+
+
+
 ## 项目结构
 
 - **[astro-app](./astro-app)**: 使用 Astro + Tailwind CSS 构建的静态站点版本。
 - **[angular-app](./angular-app)**: 使用 Angular 19 + Tailwind CSS 4 构建的单页应用版本。
+- **[react-app](./react-app)**: 使用 React 19 + Vite 7 + Tailwind CSS 4 构建的单页应用版本。
+- **[vue-app](./vue-app)**: 使用 Vue 3 + Vite 7 + Tailwind CSS 4 构建的单页应用版本。
 
 ## 核心功能
 
@@ -17,6 +26,20 @@
 ## 快速开始
 
 每一个子目录都是一个独立的工程。
+
+### React 版本 (推荐)
+```bash
+cd react-app
+pnpm install
+pnpm dev
+```
+
+### Vue 版本
+```bash
+cd vue-app
+pnpm install
+pnpm dev
+```
 
 ### Astro 版本
 ```bash
